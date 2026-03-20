@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../db/database';
-import { TaskStatus, type Task, type Category, type Subtask } from '../models/types';
+import { TaskStatus, type Task, type Category, type Subtask, type Reminder } from '../models/types';
 
 export async function createTask(
   data: Pick<Task, 'name' | 'description' | 'deadline' | 'priority' | 'categoryId'> & {
     subtasks?: Array<{ text: string }>;
+    reminders?: Reminder[];
   }
 ): Promise<number> {
   const now = new Date();
@@ -23,6 +24,7 @@ export async function createTask(
     priority: data.priority,
     categoryId: data.categoryId,
     subtasks,
+    reminders: data.reminders ?? [],
     status: TaskStatus.Active,
     createdAt: now,
     updatedAt: now,
@@ -31,7 +33,7 @@ export async function createTask(
 
 export async function updateTask(
   id: number,
-  changes: Partial<Pick<Task, 'name' | 'description' | 'deadline' | 'priority' | 'categoryId' | 'subtasks'>>
+  changes: Partial<Pick<Task, 'name' | 'description' | 'deadline' | 'priority' | 'categoryId' | 'subtasks' | 'reminders'>>
 ): Promise<void> {
   await db.tasks.update(id, {
     ...changes,
@@ -117,11 +119,11 @@ export async function deleteCategory(id: number): Promise<void> {
 }
 
 export async function getDefaultCategory(): Promise<Category> {
-  let cat = await db.categories.where('name').equals('General').first();
+  let cat = await db.categories.where('name').equals('Geral').first();
   if (!cat) {
     const id = await db.categories.add({
       uid: uuidv4(),
-      name: 'General',
+      name: 'Geral',
       color: '#00d4ff',
     });
     cat = await db.categories.get(id);
@@ -129,17 +131,16 @@ export async function getDefaultCategory(): Promise<Category> {
   return cat!;
 }
 
-// Seed default categories if empty
 export async function seedCategories(): Promise<void> {
   const count = await db.categories.count();
   if (count > 0) return;
 
   const defaults: Array<{ name: string; color: string }> = [
-    { name: 'General', color: '#00d4ff' },
-    { name: 'Work', color: '#7b61ff' },
-    { name: 'Personal', color: '#00ff88' },
-    { name: 'Health', color: '#ff3366' },
-    { name: 'Finance', color: '#ffaa00' },
+    { name: 'Geral', color: '#00d4ff' },
+    { name: 'Trabalho', color: '#7b61ff' },
+    { name: 'Pessoal', color: '#00ff88' },
+    { name: 'Saúde', color: '#ff3366' },
+    { name: 'Finanças', color: '#ffaa00' },
   ];
 
   for (const cat of defaults) {

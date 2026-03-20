@@ -13,11 +13,11 @@ interface Props {
 function formatDeadlineShort(hours: number): string {
   if (hours <= 0) {
     const h = Math.abs(hours);
-    if (h < 1) return `${Math.round(h * 60)}m over`;
-    if (h < 24) return `${Math.round(h)}h over`;
-    return `${Math.round(h / 24)}d over`;
+    if (h < 1) return `${Math.round(h * 60)}min atrás`;
+    if (h < 24) return `${Math.round(h)}h atrás`;
+    return `${Math.round(h / 24)}d atrás`;
   }
-  if (hours < 1) return `${Math.round(hours * 60)}m`;
+  if (hours < 1) return `${Math.round(hours * 60)}min`;
   if (hours < 24) return `${Math.round(hours)}h`;
   return `${Math.round(hours / 24)}d`;
 }

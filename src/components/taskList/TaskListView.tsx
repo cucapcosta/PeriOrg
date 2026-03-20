@@ -21,7 +21,7 @@ export function TaskListView() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <GlowText as="h2" size="16px">ALL MISSIONS</GlowText>
+        <GlowText as="h2" size="16px">TODAS AS MISSÕES</GlowText>
         <span className={styles.count}>{filtered.length}</span>
       </div>
 
@@ -44,7 +44,7 @@ export function TaskListView() {
           </motion.div>
         ))}
         {filtered.length === 0 && (
-          <p className={styles.empty}>No missions found</p>
+          <p className={styles.empty}>Nenhuma missão encontrada</p>
         )}
       </div>
     </div>

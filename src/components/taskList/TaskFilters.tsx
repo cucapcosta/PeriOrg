@@ -11,10 +11,10 @@ interface Props {
 }
 
 const PRIORITY_OPTIONS: Array<{ value: Priority; label: string }> = [
-  { value: Priority.Critical, label: 'CRIT' },
-  { value: Priority.High, label: 'HIGH' },
-  { value: Priority.Medium, label: 'MED' },
-  { value: Priority.Low, label: 'LOW' },
+  { value: Priority.Critical, label: 'CRÍT' },
+  { value: Priority.High, label: 'ALTO' },
+  { value: Priority.Medium, label: 'MÉD' },
+  { value: Priority.Low, label: 'BAIXO' },
 ];
 
 export function TaskFilters({
@@ -32,7 +32,7 @@ export function TaskFilters({
           className={`${styles.chip} ${!categoryFilter ? styles.active : ''}`}
           onClick={() => onCategoryChange(null)}
         >
-          ALL
+          TODOS
         </button>
         {categories.map((cat) => (
           <button

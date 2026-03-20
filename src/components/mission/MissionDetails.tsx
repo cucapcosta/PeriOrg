@@ -11,15 +11,15 @@ interface Props {
 function formatCountdown(hours: number): string {
   if (hours <= 0) {
     const overdue = Math.abs(hours);
-    if (overdue < 1) return `OVERDUE ${Math.round(overdue * 60)}m`;
-    if (overdue < 24) return `OVERDUE ${Math.round(overdue)}h`;
-    return `OVERDUE ${Math.round(overdue / 24)}d`;
+    if (overdue < 1) return `ATRASADO ${Math.round(overdue * 60)}min`;
+    if (overdue < 24) return `ATRASADO ${Math.round(overdue)}h`;
+    return `ATRASADO ${Math.round(overdue / 24)}d`;
   }
-  if (hours < 1) return `${Math.round(hours * 60)}m remaining`;
-  if (hours < 24) return `${Math.round(hours)}h remaining`;
+  if (hours < 1) return `${Math.round(hours * 60)}min restantes`;
+  if (hours < 24) return `${Math.round(hours)}h restantes`;
   const days = Math.floor(hours / 24);
   const rem = Math.round(hours % 24);
-  return `${days}d ${rem}h remaining`;
+  return `${days}d ${rem}h restantes`;
 }
 
 export function MissionDetails({ scored }: Props) {

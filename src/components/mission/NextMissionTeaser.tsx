@@ -19,7 +19,7 @@ export function NextMissionTeaser({ scored }: Props) {
     <div className={styles.wrapper}>
       <button className={styles.trigger} onClick={toggle}>
         <span className={styles.pulse} />
-        <span className={styles.label}>NEXT MISSION AVAILABLE</span>
+        <span className={styles.label}>PRÓXIMA MISSÃO DISPONÍVEL</span>
         <span className={styles.score}>{Math.round(urgencyScore)}</span>
       </button>
 

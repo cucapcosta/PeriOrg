@@ -11,6 +11,18 @@ export enum TaskStatus {
   Archived = 'archived',
 }
 
+export enum ReminderUnit {
+  Minutes = 'min',
+  Hours = 'h',
+  Days = 'd',
+}
+
+export interface Reminder {
+  id: string;
+  amount: number;
+  unit: ReminderUnit;
+}
+
 export interface Subtask {
   id: string;
   text: string;
@@ -27,6 +39,7 @@ export interface Task {
   priority: Priority;
   categoryId: string;
   subtasks: Subtask[];
+  reminders: Reminder[];
   status: TaskStatus;
   createdAt: Date;
   updatedAt: Date;

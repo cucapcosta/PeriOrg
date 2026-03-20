@@ -17,7 +17,6 @@ export function UrgencyMeter({ score, size = 140 }: Props) {
   const color = getColor(score);
   const strokeWidth = 6;
   const radius = (size - strokeWidth) / 2;
-  // Arc from 135° to 405° (270° sweep)
   const startAngle = 135;
   const sweepAngle = 270;
   const progress = Math.min(score / 100, 1.25);
@@ -41,7 +40,6 @@ export function UrgencyMeter({ score, size = 140 }: Props) {
   return (
     <div className={styles.container} style={{ width: size, height: size }}>
       <svg width={size} height={size}>
-        {/* Track */}
         <path
           d={arcPath(startAngle, startAngle + sweepAngle)}
           fill="none"
@@ -49,7 +47,6 @@ export function UrgencyMeter({ score, size = 140 }: Props) {
           strokeWidth={strokeWidth}
           strokeLinecap="round"
         />
-        {/* Progress */}
         {score > 0 && (
           <path
             d={arcPath(startAngle, endAngle)}
@@ -66,7 +63,7 @@ export function UrgencyMeter({ score, size = 140 }: Props) {
       </svg>
       <div className={styles.label}>
         <span className={styles.value} style={{ color }}>{Math.round(score)}</span>
-        <span className={styles.unit}>URGENCY</span>
+        <span className={styles.unit}>URGÊNCIA</span>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ export function NavBar() {
         onClick={() => setView('mission')}
       >
         <TargetIcon size={22} />
-        <span>MISSION</span>
+        <span>MISSÃO</span>
       </button>
 
       <button
@@ -29,7 +29,7 @@ export function NavBar() {
         onClick={() => setView('taskList')}
       >
         <ListIcon size={22} />
-        <span>TASKS</span>
+        <span>TAREFAS</span>
       </button>
     </nav>
   );

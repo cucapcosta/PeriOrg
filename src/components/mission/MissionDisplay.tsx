@@ -22,10 +22,10 @@ export function MissionDisplay() {
     return (
       <div className={styles.empty}>
         <GlowText as="h2" size="20px" color="var(--accent-secondary)">
-          NO ACTIVE MISSIONS
+          NENHUMA MISSÃO ATIVA
         </GlowText>
         <p className={styles.emptyHint}>
-          Add a task to begin your mission
+          Adicione uma tarefa para iniciar sua missão
         </p>
       </div>
     );
@@ -42,14 +42,12 @@ export function MissionDisplay() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        {/* Header */}
         <div className={styles.headerRow}>
           <GlowText as="span" size="11px" color="var(--text-muted)">
-            CURRENT MISSION
+            MISSÃO ATUAL
           </GlowText>
         </div>
 
-        {/* Urgency + Progress */}
         <div className={styles.meters}>
           <UrgencyMeter score={urgencyScore} size={130} />
           {task.subtasks.length > 0 && (
@@ -66,7 +64,6 @@ export function MissionDisplay() {
           )}
         </div>
 
-        {/* Mission card */}
         <GlassPanel style={{ padding: '20px 18px' }}>
           <MissionDetails scored={currentMission} />
 
@@ -77,7 +74,6 @@ export function MissionDisplay() {
           )}
         </GlassPanel>
 
-        {/* Actions */}
         <div className={styles.actions}>
           <GlowButton
             variant="success"
@@ -85,7 +81,7 @@ export function MissionDisplay() {
             fullWidth
             onClick={() => completeTask(taskId)}
           >
-            COMPLETE MISSION
+            COMPLETAR MISSÃO
           </GlowButton>
           <div className={styles.secondaryActions}>
             <GlowButton
@@ -93,19 +89,18 @@ export function MissionDisplay() {
               size="sm"
               onClick={() => openTaskForm(taskId)}
             >
-              <EditIcon size={14} /> EDIT
+              <EditIcon size={14} /> EDITAR
             </GlowButton>
             <GlowButton
               variant="danger"
               size="sm"
               onClick={() => archiveTask(taskId)}
             >
-              <ArchiveIcon size={14} /> ARCHIVE
+              <ArchiveIcon size={14} /> ARQUIVAR
             </GlowButton>
           </div>
         </div>
 
-        {/* Next mission teaser */}
         {nextMission && <NextMissionTeaser scored={nextMission} />}
       </motion.div>
     </div>

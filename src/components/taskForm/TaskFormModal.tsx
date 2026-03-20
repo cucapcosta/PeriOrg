@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../db/database';
-import { Priority } from '../../models/types';
+import { Priority, type Reminder } from '../../models/types';
 import { createTask, updateTask } from '../../services/taskService';
 import { useUIStore } from '../../stores/uiStore';
 import { useCategories } from '../../hooks/useCategories';
@@ -14,6 +14,7 @@ import { PrioritySelector } from './PrioritySelector';
 import { DateTimePicker } from './DateTimePicker';
 import { CategoryPicker } from './CategoryPicker';
 import { SubtaskEditor } from './SubtaskEditor';
+import { ReminderEditor } from './ReminderEditor';
 import styles from './TaskFormModal.module.css';
 
 function toLocalISO(date: Date): string {
@@ -44,8 +45,8 @@ export function TaskFormModal() {
   const [deadline, setDeadline] = useState(defaultDeadline);
   const [categoryId, setCategoryId] = useState('');
   const [subtasks, setSubtasks] = useState<Array<{ id: string; text: string }>>([]);
+  const [reminders, setReminders] = useState<Reminder[]>([]);
 
-  // Populate form when editing
   useEffect(() => {
     if (editingTask) {
       setName(editingTask.name);
@@ -54,10 +55,10 @@ export function TaskFormModal() {
       setDeadline(toLocalISO(new Date(editingTask.deadline)));
       setCategoryId(editingTask.categoryId);
       setSubtasks(editingTask.subtasks.map((s) => ({ id: s.id, text: s.text })));
+      setReminders(editingTask.reminders ?? []);
     }
   }, [editingTask]);
 
-  // Default category
   useEffect(() => {
     if (!categoryId && categories.length > 0) {
       setCategoryId(categories[0].uid);
@@ -83,6 +84,7 @@ export function TaskFormModal() {
           completed: editingTask.subtasks.find((es) => es.id === s.id)?.completed ?? false,
           order: i,
         })),
+        reminders,
       });
     } else {
       await createTask({
@@ -92,6 +94,7 @@ export function TaskFormModal() {
         deadline: deadlineDate,
         categoryId,
         subtasks: subtasks.map((s) => ({ text: s.text })),
+        reminders,
       });
     }
 
@@ -110,17 +113,17 @@ export function TaskFormModal() {
           <BackIcon size={22} color="var(--accent-primary)" />
         </button>
         <GlowText as="h2" size="16px">
-          {editingTaskId ? 'EDIT MISSION' : 'NEW MISSION'}
+          {editingTaskId ? 'EDITAR MISSÃO' : 'NOVA MISSÃO'}
         </GlowText>
       </div>
 
       <div className={styles.form}>
         <GlassPanel style={{ padding: '18px 16px' }}>
           <div className={styles.field}>
-            <label className={styles.label}>MISSION NAME</label>
+            <label className={styles.label}>NOME DA MISSÃO</label>
             <input
               className={styles.input}
-              placeholder="What needs to be done?"
+              placeholder="O que precisa ser feito?"
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoFocus
@@ -128,10 +131,10 @@ export function TaskFormModal() {
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label}>DESCRIPTION</label>
+            <label className={styles.label}>DESCRIÇÃO</label>
             <textarea
               className={`${styles.input} ${styles.textarea}`}
-              placeholder="Optional details..."
+              placeholder="Detalhes opcionais..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
@@ -145,6 +148,8 @@ export function TaskFormModal() {
           <CategoryPicker value={categoryId} onChange={setCategoryId} />
 
           <SubtaskEditor subtasks={subtasks} onChange={setSubtasks} />
+
+          <ReminderEditor reminders={reminders} onChange={setReminders} />
         </GlassPanel>
 
         <GlowButton
@@ -154,7 +159,7 @@ export function TaskFormModal() {
           disabled={!isValid}
           onClick={handleSubmit}
         >
-          {editingTaskId ? 'UPDATE MISSION' : 'CREATE MISSION'}
+          {editingTaskId ? 'ATUALIZAR MISSÃO' : 'CRIAR MISSÃO'}
         </GlowButton>
       </div>
     </motion.div>

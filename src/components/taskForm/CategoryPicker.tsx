@@ -5,7 +5,7 @@ import { PlusIcon } from '../shared/IconSet';
 import styles from './CategoryPicker.module.css';
 
 interface Props {
-  value: string; // category uid
+  value: string;
   onChange: (uid: string) => void;
 }
 
@@ -25,7 +25,7 @@ export function CategoryPicker({ value, onChange }: Props) {
 
   return (
     <div className={styles.container}>
-      <label className={styles.label}>CATEGORY</label>
+      <label className={styles.label}>CATEGORIA</label>
       <div className={styles.chips}>
         {categories.map((cat) => (
           <button
@@ -56,7 +56,7 @@ export function CategoryPicker({ value, onChange }: Props) {
         <div className={styles.newRow}>
           <input
             className={styles.newInput}
-            placeholder="Category name"
+            placeholder="Nome da categoria"
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
@@ -67,7 +67,7 @@ export function CategoryPicker({ value, onChange }: Props) {
             className={styles.newBtn}
             onClick={handleCreate}
           >
-            ADD
+            CRIAR
           </button>
         </div>
       )}

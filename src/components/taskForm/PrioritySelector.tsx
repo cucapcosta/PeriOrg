@@ -8,16 +8,16 @@ interface Props {
 }
 
 const OPTIONS: Array<{ value: Priority; label: string }> = [
-  { value: Priority.Critical, label: 'CRITICAL' },
-  { value: Priority.High, label: 'HIGH' },
-  { value: Priority.Medium, label: 'MEDIUM' },
-  { value: Priority.Low, label: 'LOW' },
+  { value: Priority.Critical, label: 'CRÍTICO' },
+  { value: Priority.High, label: 'ALTO' },
+  { value: Priority.Medium, label: 'MÉDIO' },
+  { value: Priority.Low, label: 'BAIXO' },
 ];
 
 export function PrioritySelector({ value, onChange }: Props) {
   return (
     <div className={styles.container}>
-      <label className={styles.label}>PRIORITY</label>
+      <label className={styles.label}>PRIORIDADE</label>
       <div className={styles.options}>
         {OPTIONS.map((opt) => {
           const color = theme.priority[opt.value];

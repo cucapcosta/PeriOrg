@@ -7,10 +7,10 @@ interface Props {
 }
 
 const LABELS: Record<Priority, string> = {
-  [Priority.Critical]: 'CRITICAL',
-  [Priority.High]: 'HIGH',
-  [Priority.Medium]: 'MEDIUM',
-  [Priority.Low]: 'LOW',
+  [Priority.Critical]: 'CRÍTICO',
+  [Priority.High]: 'ALTO',
+  [Priority.Medium]: 'MÉDIO',
+  [Priority.Low]: 'BAIXO',
 };
 
 export function StatusBadge({ priority }: Props) {

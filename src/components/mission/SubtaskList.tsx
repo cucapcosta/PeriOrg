@@ -15,7 +15,7 @@ export function SubtaskList({ taskId, subtasks }: Props) {
 
   return (
     <div className={styles.list}>
-      <div className={styles.header}>SUBTASKS</div>
+      <div className={styles.header}>SUBTAREFAS</div>
       {sorted.map((sub) => (
         <button
           key={sub.id}

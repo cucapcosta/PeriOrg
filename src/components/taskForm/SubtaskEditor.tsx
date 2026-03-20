@@ -29,7 +29,7 @@ export function SubtaskEditor({ subtasks, onChange }: Props) {
 
   return (
     <div className={styles.container}>
-      <label className={styles.label}>SUBTASKS</label>
+      <label className={styles.label}>SUBTAREFAS</label>
 
       {subtasks.map((s) => (
         <div key={s.id} className={styles.item}>
@@ -43,7 +43,7 @@ export function SubtaskEditor({ subtasks, onChange }: Props) {
       <div className={styles.addRow}>
         <input
           className={styles.input}
-          placeholder="Add subtask..."
+          placeholder="Adicionar subtarefa..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), add())}
