@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   build-android:
     runs-on: ubuntu-latest
@@ -47,9 +50,18 @@ jobs:
         working-directory: android
         run: ./gradlew assembleRelease
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - name: Get version
+        id: version
+        run: echo "version=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
+
+      - name: Rename APK
+        run: mv android/app/build/outputs/apk/release/app-release-unsigned.apk periorg-v${{ steps.version.outputs.version }}.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: periorg-release
-          path: android/app/build/outputs/apk/release/*.apk
-          retention-days: 30
+          tag_name: v${{ steps.version.outputs.version }}
+          name: PeriOrg v${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          make_latest: true
+          files: periorg-v${{ steps.version.outputs.version }}.apk
