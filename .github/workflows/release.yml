@@ -43,19 +43,34 @@ jobs:
       - name: Copy app icon
         run: cp -r resources/res/* android/app/src/main/res/
 
+      - name: Configure signing
+        run: bash scripts/configure-signing.sh
+
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Build release APK
+      - name: Decode keystore
+        run: echo "$KEYSTORE_BASE64" | base64 -d > android/app/periorg.jks
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+
+      - name: Build signed release APK
         working-directory: android
         run: ./gradlew assembleRelease
+        env:
+          ORG_GRADLE_PROJECT_storeFile: periorg.jks
+          ORG_GRADLE_PROJECT_storePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          ORG_GRADLE_PROJECT_keyAlias: ${{ secrets.KEY_ALIAS }}
+          ORG_GRADLE_PROJECT_keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Get version
         id: version
         run: echo "version=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
 
       - name: Rename APK
-        run: mv android/app/build/outputs/apk/release/app-release-unsigned.apk periorg-v${{ steps.version.outputs.version }}.apk
+        run: |
+          APK=$(find android/app/build/outputs/apk/release -name '*.apk' | head -1)
+          mv "$APK" periorg-v${{ steps.version.outputs.version }}.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
