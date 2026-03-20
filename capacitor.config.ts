@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.orgpers.app',
-  appName: 'OrgPers',
+  appId: 'com.periorg.app',
+  appName: 'PeriOrg',
   webDir: 'dist',
   server: {
     androidScheme: 'https',
