@@ -1,0 +1,63 @@
+.frame {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.corner {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-color: rgba(0, 212, 255, 0.25);
+  border-style: solid;
+  border-width: 0;
+}
+
+.tl {
+  top: 8px;
+  left: 8px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.tr {
+  top: 8px;
+  right: 8px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.bl {
+  bottom: 8px;
+  left: 8px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.br {
+  bottom: 8px;
+  right: 8px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+.scanLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.06) 20%,
+    rgba(0, 212, 255, 0.06) 80%,
+    transparent 100%
+  );
+  animation: scan-line 8s linear infinite;
+}
+
+@keyframes scan-line {
+  0% { top: -2px; }
+  100% { top: 100%; }
+}

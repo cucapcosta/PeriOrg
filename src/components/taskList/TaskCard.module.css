@@ -1,0 +1,69 @@
+.card {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+
+.card:active {
+  background: rgba(0, 212, 255, 0.06);
+}
+
+.left {
+  flex: 1;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.category {
+  font-family: var(--font-display);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deadline {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.overdue {
+  color: var(--accent-danger);
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-left: 12px;
+}
+
+.score {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.subtaskCount {
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: var(--text-muted);
+}
