@@ -1,26 +1,30 @@
 #!/bin/bash
-# Injeta signing config no build.gradle do app Android
-# Roda depois de "npx cap add android" no CI
+# Appends signing overlay to build.gradle for release builds
+# Runs after "npx cap sync android" in CI
 
 GRADLE_FILE="android/app/build.gradle"
+OVERLAY_FILE="scripts/signing-overlay.gradle"
 
 if [ ! -f "$GRADLE_FILE" ]; then
-  echo "build.gradle not found, skipping signing config"
-  exit 0
+  echo "ERROR: $GRADLE_FILE not found"
+  exit 1
 fi
 
-# Adiciona signingConfigs antes do buildTypes
-sed -i '/buildTypes {/i \
-    signingConfigs {\
-        release {\
-            storeFile file(project.findProperty("storeFile") ?: "not-found.jks")\
-            storePassword project.findProperty("storePassword") ?: ""\
-            keyAlias project.findProperty("keyAlias") ?: ""\
-            keyPassword project.findProperty("keyPassword") ?: ""\
-        }\
-    }' "$GRADLE_FILE"
+if [ ! -f "$OVERLAY_FILE" ]; then
+  echo "ERROR: $OVERLAY_FILE not found"
+  exit 1
+fi
 
-# Adiciona signingConfig ao buildType release
-sed -i '/buildTypes {/{n;s/release {/release {\n            signingConfig signingConfigs.release/}' "$GRADLE_FILE"
+echo "" >> "$GRADLE_FILE"
+echo "// --- Signing config injected by CI ---" >> "$GRADLE_FILE"
+cat "$OVERLAY_FILE" >> "$GRADLE_FILE"
 
-echo "Signing config injected into $GRADLE_FILE"
+echo "Signing config appended to $GRADLE_FILE"
+
+# Verification: check that signingConfigs is now present
+if grep -q "signingConfigs" "$GRADLE_FILE"; then
+  echo "OK: signingConfigs block found in build.gradle"
+else
+  echo "ERROR: signingConfigs block NOT found after injection"
+  exit 1
+fi

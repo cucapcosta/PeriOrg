@@ -1,0 +1,17 @@
+// Signing config appended by CI
+android {
+    signingConfigs {
+        release {
+            def ksFile = project.findProperty("storeFile") ?: "not-found.jks"
+            storeFile file(ksFile)
+            storePassword project.findProperty("storePassword") ?: ""
+            keyAlias project.findProperty("keyAlias") ?: ""
+            keyPassword project.findProperty("keyPassword") ?: ""
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+}

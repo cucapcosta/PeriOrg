@@ -43,11 +43,11 @@ jobs:
       - name: Copy app icon
         run: cp -r resources/res/* android/app/src/main/res/
 
-      - name: Configure signing
-        run: bash scripts/configure-signing.sh
-
       - name: Sync Capacitor
         run: npx cap sync android
+
+      - name: Configure signing
+        run: bash scripts/configure-signing.sh
 
       - name: Decode keystore
         run: echo "$KEYSTORE_BASE64" | base64 -d > android/app/periorg.jks
@@ -62,6 +62,16 @@ jobs:
           ORG_GRADLE_PROJECT_storePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           ORG_GRADLE_PROJECT_keyAlias: ${{ secrets.KEY_ALIAS }}
           ORG_GRADLE_PROJECT_keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Verify APK is signed
+        run: |
+          APK=$(find android/app/build/outputs/apk/release -name '*.apk' | head -1)
+          echo "Found APK: $APK"
+          if echo "$APK" | grep -q "unsigned"; then
+            echo "ERROR: APK is unsigned!"
+            exit 1
+          fi
+          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools/ | tail -1)/apksigner verify --verbose "$APK"
 
       - name: Get version
         id: version
